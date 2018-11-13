@@ -19,6 +19,7 @@ public class HibernateConfiguration {
             prop.setProperty("hibernate.connection.password", "test");
             prop.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
             prop.setProperty("hibernate.connection.driver_class", "org.postgresql.Driver");
+            prop.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 
             Configuration hibernateConfiguration = new Configuration();
             hibernateConfiguration.addProperties(prop);
