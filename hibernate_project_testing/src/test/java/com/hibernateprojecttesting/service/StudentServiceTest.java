@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -25,8 +26,27 @@ public class StudentServiceTest {
     }
 
     @Test
-    public void getAllStudents() {
-        //testingCustomTools.writeStudentList(studentService.getAllStudents());
+    public void getAllStudents() throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date parsedDate = dateFormat.parse("1996-11-12");
+        Timestamp birthdateTimestamp = new java.sql.Timestamp(parsedDate.getTime());
+
+        Student expectedStudent = new Student("Paweł", "Nowak", birthdateTimestamp, "Wrocław", "Polska", "paweł.nowak@gmail.com", "847 634 234", "mężczyzna");
+        expectedStudent.setId((long) 2);
+        Student student = studentService.getAllStudents().get(0);
+
+        assertEquals(expectedStudent.getId(), student.getId());
+        assertEquals(expectedStudent.getName(), student.getName());
+        assertEquals(expectedStudent.getSurname(), student.getSurname());
+        assertEquals(expectedStudent.getEmail(), student.getEmail());
+        assertEquals(expectedStudent.getPhone(), student.getPhone());
+        assertEquals(expectedStudent.getBirthDate(), student.getBirthDate());
+        assertEquals(expectedStudent.getAddressCountry(), student.getAddressCountry());
+        assertEquals(expectedStudent.getAddressCity(), student.getAddressCity());
+        assertEquals(expectedStudent.getGender(), student.getGender());
+
+        assertTrue(studentService.getAllStudents() instanceof List);
+        assertTrue(studentService.getAllStudents().get(0) instanceof Student);
     }
 
     @Test
@@ -55,21 +75,23 @@ public class StudentServiceTest {
 
     @Test
     public void getStudentById() throws ParseException {
-        Student student = studentService.getStudentById((long) 2);
-        assertEquals(student.getName(), "Paweł");
-        assertEquals(student.getSurname(), "Nowak");
-        assertEquals(student.getEmail(), "paweł.nowak@gmail.com");
-        assertEquals(student.getAddressCity(), "Wrocław");
-        assertEquals(student.getAddressCountry(), "Polska");
-        assertEquals(student.getId(), new Long(2));
-        assertEquals(student.getPhone(), "847 634 234");
-        assertEquals(student.getGender(), "mężczyzna");
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        Date parsedDate = dateFormat.parse("1996-11-12 00:00:00");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date parsedDate = dateFormat.parse("1996-11-12");
         Timestamp birthdateTimestamp = new java.sql.Timestamp(parsedDate.getTime());
 
-        assertEquals(student.getBirthDate(), birthdateTimestamp);
+        Student expectedStudent = new Student("Paweł", "Nowak", birthdateTimestamp, "Wrocław", "Polska", "paweł.nowak@gmail.com", "847 634 234", "mężczyzna");
+        expectedStudent.setId((long) 2);
+        Student student = studentService.getStudentById((long) 2);
+
+        assertEquals(expectedStudent.getId(), student.getId());
+        assertEquals(expectedStudent.getName(), student.getName());
+        assertEquals(expectedStudent.getSurname(), student.getSurname());
+        assertEquals(expectedStudent.getEmail(), student.getEmail());
+        assertEquals(expectedStudent.getPhone(), student.getPhone());
+        assertEquals(expectedStudent.getBirthDate(), student.getBirthDate());
+        assertEquals(expectedStudent.getAddressCountry(), student.getAddressCountry());
+        assertEquals(expectedStudent.getAddressCity(), student.getAddressCity());
+        assertEquals(expectedStudent.getGender(), student.getGender());
     }
 
 }
