@@ -92,4 +92,21 @@ public class StudentService {
             session.close();
         }
     }
+
+    public void deleteStudent(Long studentId) {
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            Student student = (Student) session.get(Student.class, studentId);
+            session.delete(student);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
 }
